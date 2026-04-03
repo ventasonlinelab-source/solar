@@ -3,119 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROTOCOLO 10X² | ESCALA SOLAR</title>
+    <title>PROTOCOLO 10X² | DIAGNÓSTICO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --bg: #050505; --text: #e0e0e0; --accent: #00ff66; --grey: #121212; --font: 'Courier New', monospace; }
-        body { background: var(--bg); color: var(--text); font-family: var(--font); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow-x: hidden; }
-        
-        #terminal { background: rgba(10,10,10,0.98); border: 2px solid var(--accent); padding: 40px; width: 95%; max-width: 750px; box-shadow: 0 0 100px rgba(0,255,102,0.1); position: relative; }
-        
-        .header-box { text-align: center; margin-bottom: 35px; }
-        h1 { font-size: 2.1rem; color: #fff; text-transform: uppercase; margin: 0 0 15px 0; line-height: 1.1; letter-spacing: -1px; }
-        h1 span { color: var(--accent); }
-        .sub-header { font-size: 1.1rem; color: #bbb; line-height: 1.5; max-width: 90%; margin: 0 auto; }
-        .sub-header b { color: var(--accent); border-bottom: 1px solid var(--accent); }
-
-        .progress-container { height: 4px; background: #222; margin: 30px 0; width: 100%; }
-        .progress-fill { height: 100%; background: var(--accent); width: 25%; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); box-shadow: 0 0 15px var(--accent); }
-
-        .quiz-step { display: none; }
-        .quiz-step.active { display: block; animation: fadeIn 0.4s ease-out; }
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; }
+        .btn-option { border: 1px solid #333; transition: 0.2s; }
+        .btn-option:hover { border-color: #ff3e3e; background: #1a1a1a; }
+        .hidden { display: none; }
+        .step-active { display: block; animation: fadeIn 0.3s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .question-text { font-size: 1.1rem; margin-bottom: 25px; color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* EL DIAGNÓSTICO DE SELECCIÓN */
-        .option-card { 
-            background: var(--grey); border: 1px solid #333; color: var(--text); padding: 22px; 
-            margin-bottom: 12px; cursor: pointer; transition: 0.2s; display: flex; align-items: center;
-            text-transform: uppercase; font-size: 0.9rem; font-weight: 700;
-        }
-        .option-card:hover { border-color: var(--accent); background: #0a1f14; color: var(--accent); transform: translateX(10px); }
-        .option-card::before { content: "[ ]"; margin-right: 15px; color: #444; font-family: monospace; }
-        .option-card:hover::before { content: "[X]"; color: var(--accent); }
-
-        .vsl-box { background: #000; border: 1px solid var(--accent); padding: 15px; margin-bottom: 25px; text-align: center; }
-
-        .form-input { width: 100%; background: #000; border: 1px solid #333; padding: 20px; color: var(--accent); font-family: var(--font); box-sizing: border-box; font-size: 1.1rem; margin-bottom: 15px; }
-        .form-input:focus { border-color: var(--accent); outline: none; }
-
-        .submit-btn { width: 100%; background: var(--accent); color: #000; border: none; padding: 28px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 1.3rem; transition: 0.3s; }
-        .submit-btn:hover { background: #fff; box-shadow: 0 0 50px var(--accent); transform: scale(1.02); }
-
-        .nav-link { color: #444; text-decoration: underline; font-size: 0.8rem; cursor: pointer; display: inline-block; margin-top: 20px; }
-        .nav-link:hover { color: #fff; }
     </style>
 </head>
-<body>
+<body class="flex flex-col items-center justify-center min-h-screen p-6">
 
-    <div id="terminal">
-        <div class="header-box">
-            <h1>DUPLICA TU <span>BENEFICIO NETO</span> EN 7 DÍAS SIN INSTALAR NI UN TEJADO MÁS</h1>
-            <p class="sub-header">Eliminamos el caos operativo conectando Captación y Odoo. <b>Garantizado por contrato</b>: Recupera el control de tus márgenes <b>sin mover un dedo</b>.</p>
-        </div>
+    <div id="main-content" class="max-w-2xl text-center">
+        <h1 class="text-4xl md:text-6xl font-black tracking-tighter mb-4 text-red-600">
+            PROTOCOLO 10X²
+        </h1>
+        <p class="text-xl md:text-2xl font-light text-gray-400 mb-12">
+            Autodiagnóstico de fugas de capital: Descubre cuánto dinero estás perdiendo por cada minuto de latencia.
+        </p>
 
-        <div class="progress-container"><div class="progress-fill" id="bar"></div></div>
-
-        <div class="quiz-step active" id="step1">
-            <p class="question-text">> IDENTIFICA TU PUNTO DE FUGA:</p>
-            <div class="option-card" onclick="select(1, 'MUCHO_VOL_POCO_BEN', 2)">Facturo mucho pero mi beneficio neto es ridículo</div>
-            <div class="option-card" onclick="select(1, 'CAOS_ODOO', 2)">Tengo un desorden total en leads y Odoo</div>
-            <div class="option-card" onclick="select(1, 'TECHO_ESCALA', 2)">Si instalo más, el caos me arruina el margen</div>
-        </div>
-
-        <div class="quiz-step" id="step2">
-            <p class="question-text">> LA ESTRATEGIA DE 168 HORAS:</p>
-            <div class="vsl-box">
-                <p style="color:var(--accent); font-size:0.7rem; margin-bottom:10px;">[ DECODIFICANDO SOLUCIÓN INTEGRAL ]</p>
-                <div style="height: 180px; display:flex; align-items:center; justify-content:center; color:#444;">VÍDEO DE BUNNY.NET CARGANDO...</div>
+        <div id="quiz-container" class="bg-zinc-900 p-8 rounded-lg border border-zinc-800 shadow-2xl text-left">
+            
+            <div id="step-1" class="step-active">
+                <h2 class="text-xl font-bold mb-6 italic">DATOS DE OPERACIÓN</h2>
+                <input type="text" id="name" placeholder="Tu Nombre" class="w-full bg-black border border-zinc-700 p-4 mb-4 rounded focus:border-red-600 outline-none">
+                <input type="tel" id="phone" placeholder="WhatsApp (Ej: +34...)" class="w-full bg-black border border-zinc-700 p-4 mb-6 rounded focus:border-red-600 outline-none">
+                <button onclick="nextStep(2)" class="w-full bg-white text-black font-black py-4 rounded hover:bg-red-600 hover:text-white transition">INICIAR DIAGNÓSTICO</button>
             </div>
-            <div class="option-card" onclick="select(2, 'SISTEMA_LLAVE_MANO', 3)">SÍ, QUIERO ESTA INFRAESTRUCTURA YA</div>
-            <span class="nav-link" onclick="go(1)">[ VOLVER ]</span>
-        </div>
 
-        <div class="quiz-step" id="step3">
-            <p class="question-text">> CREDENCIALES PARA AUDITORÍA 10X:</p>
-            <form onsubmit="finish(event)">
-                <input type="text" id="name" class="form-input" placeholder="TU NOMBRE (CEO)" required>
-                <input type="text" id="company" class="form-input" placeholder="EMPRESA INSTALADORA" required>
-                <input type="tel" id="phone" class="form-input" placeholder="WHATSAPP PERSONAL" required>
-                <button type="submit" class="submit-btn">ACTIVAR PROTOCOLO GARANTIZADO</button>
-            </form>
-            <span class="nav-link" onclick="go(2)">[ VOLVER ]</span>
+            <div id="step-2" class="hidden">
+                <h2 class="text-xl font-bold mb-6 italic">¿FACTURACIÓN MENSUAL ACTUAL?</h2>
+                <div class="space-y-3">
+                    <button onclick="saveData('fact', '10k', 3)" class="btn-option w-full p-4 text-left rounded">MENOS DE 10.000€</button>
+                    <button onclick="saveData('fact', '50k', 3)" class="btn-option w-full p-4 text-left rounded font-bold text-red-500">10.000€ - 50.000€</button>
+                    <button onclick="saveData('fact', '100k', 3)" class="btn-option w-full p-4 text-left rounded font-black text-red-600">MÁS DE 50.000€</button>
+                </div>
+            </div>
+
+            <div id="step-3" class="hidden">
+                <h2 class="text-xl font-bold mb-6 italic">¿VOLUMEN DE LEADS AL MES?</h2>
+                <div class="space-y-3">
+                    <button onclick="saveData('leads', '50', 4)" class="btn-option w-full p-4 text-left rounded">MENOS DE 50 LEADS</button>
+                    <button onclick="saveData('leads', '200', 4)" class="btn-option w-full p-4 text-left rounded font-bold">50 - 200 LEADS</button>
+                    <button onclick="saveData('leads', '500', 4)" class="btn-option w-full p-4 text-left rounded font-black text-red-600">MÁS DE 200 LEADS</button>
+                </div>
+            </div>
+
+            <div id="step-4" class="hidden">
+                <h2 class="text-xl font-bold mb-6 italic">¿MÉTODO ACTUAL DE RESPUESTA?</h2>
+                <div class="space-y-3">
+                    <button onclick="finalize('analogico')" class="btn-option w-full p-4 text-left rounded">ANALÓGICO (Llamada/WhatsApp manual)</button>
+                    <button onclick="finalize('chatbot')" class="btn-option w-full p-4 text-left rounded">CHATBOT GENÉRICO (Automático frío)</button>
+                    <button onclick="finalize('hibrido')" class="btn-option w-full p-4 text-left rounded">HÍBRIDO (Delegado/Agencia externa)</button>
+                </div>
+            </div>
+
+            <div id="result" class="hidden text-center">
+                <div class="mb-6 p-4 bg-red-900/20 border border-red-600 rounded text-red-500 font-bold animate-pulse">
+                    DIAGNÓSTICO: CRÍTICO
+                </div>
+                <h2 class="text-3xl font-black mb-4">ESTÁS QUEMANDO DINERO</h2>
+                <p class="text-gray-400 mb-8">Tu latencia de respuesta está matando el 60% de tus ventas. El Protocolo 10X² puede recuperar ese flujo hoy mismo.</p>
+                <button onclick="sendLead()" class="w-full bg-red-600 text-white font-black py-6 rounded text-xl hover:scale-105 transition">QUIERO ARREGLAR ESTO HOY</button>
+                <p class="mt-4 text-xs text-gray-600">Al pulsar, un Sentinel 11s priorizará tu caso.</p>
+            </div>
         </div>
     </div>
 
     <script>
-        let results = { p1: '', p2: '' };
-        const WEBHOOK = 'https://n8n.planneruniversedigital.com/webhook-test/539d7879-37ff-47a1-a64e-6186a94aa0f8';
-        const WHATSAPP = '346XXXXXXXX'; // TU TELÉFONO AQUÍ
+        let userData = {};
 
-        function select(step, val, next) {
-            results['p' + step] = val;
-            go(next);
+        function nextStep(step) {
+            document.querySelectorAll('[id^="step-"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById('step-' + step).classList.remove('hidden');
+            document.getElementById('step-' + step).classList.add('step-active');
         }
 
-        function go(s) {
-            document.querySelectorAll('.quiz-step').forEach(el => el.classList.remove('active'));
-            document.getElementById('step' + s).classList.add('active');
-            document.getElementById('bar').style.width = (s * 33) + '%';
+        function saveData(key, value, next) {
+            userData[key] = value;
+            nextStep(next);
         }
 
-        async function finish(e) {
-            e.preventDefault();
-            const n = document.getElementById('name').value;
-            const c = document.getElementById('company').value;
-            const p = document.getElementById('phone').value;
+        function finalize(metodo) {
+            userData['metodo'] = metodo;
+            document.getElementById('step-4').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('result').classList.add('step-active');
+        }
 
-            const finalData = { ...results, nombre: n, empresa: c, tel: p };
-
-            // Disparo a n8n
-            fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(finalData) });
-
-            // Cierre en WhatsApp
-            const text = `César, soy ${n} de ${c}. Mi beneficio es bajo por ${results.p1}. He visto el vídeo y quiero el sistema llave en mano en 7 días. ¡Fuego!`;
-            window.location.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
+        function sendLead() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            // Aquí iría el webhook a n8n para disparar Vapi
+            alert('PROTOCOLADO: '+ name +'. Activando Sentinel en el ' + phone + '. Prepárate.');
+            window.location.href = "https://wa.me/TU_NUMERO?text=He%20terminado%20el%20autodiagnóstico.%20Quiero%20instalar%20el%20Protocolo%2010X%20HOY.";
         }
     </script>
 </body>

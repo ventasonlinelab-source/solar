@@ -3,102 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROTOCOLO 10X² | DIAGNÓSTICO</title>
+    <title>PROTOCOLO SOLAR 10X²</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; }
-        .btn-option { border: 1px solid #333; transition: 0.2s; }
-        .btn-option:hover { border-color: #ff3e3e; background: #1a1a1a; }
+        .highlight { border-bottom: 2px solid #ff3e3e; font-weight: 800; color: #fff; }
         .hidden { display: none; }
-        .step-active { display: block; animation: fadeIn 0.3s ease-in; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        input, select { background: #0a0a0a !important; border: 1px solid #333 !important; color: white !important; }
+        input:focus, select:focus { border-color: #ff3e3e !important; outline: none; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-6">
+<body class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
 
-    <div id="main-content" class="max-w-2xl text-center">
-        <h1 class="text-4xl md:text-6xl font-black tracking-tighter mb-4 text-red-600">
-            PROTOCOLO 10X²
+    <div id="main-view" class="max-w-4xl w-full fade-in">
+        <div class="mb-4">
+            <span class="bg-red-600 text-white px-3 py-1 font-black text-xs uppercase tracking-widest text-[10px]">Exclusivo: Instaladores Solares</span>
+        </div>
+        <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-8 uppercase leading-none">
+            DEJA DE PERDER EL 70% DE TUS <span class="text-red-600">LEADS SOLARES</span>
         </h1>
-        <p class="text-xl md:text-2xl font-light text-gray-400 mb-12">
-            Autodiagnóstico de fugas de capital: Descubre cuánto dinero estás perdiendo por cada minuto de latencia.
-        </p>
+        <div id="form-container" class="w-full max-w-xl mx-auto bg-zinc-900 p-8 rounded-lg border border-zinc-800 text-left shadow-2xl">
+            <h2 class="text-xl font-black mb-6 uppercase italic text-red-600 text-center underline text-white">Autodiagnostico de Fuga de Capital</h2>
+            <form class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" id="name" placeholder="Tu Nombre" class="w-full p-4 rounded" required>
+                    <input type="tel" id="phone" placeholder="WhatsApp Directo" class="w-full p-4 rounded" required>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500 uppercase font-bold px-1">Facturacion Anual Estimada</label>
+                    <select id="fact_anual" class="w-full p-4 mt-1 rounded">
+                        <option value="350000">100k - 500k €</option>
+                        <option value="800000">500k - 1M €</option>
+                        <option value="2000000">Mas de 1M €</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500 uppercase font-bold px-1">Volumen de Leads Mensuales</label>
+                    <select id="leads_vol" class="w-full p-4 mt-1 rounded">
+                        <option value="50">Menos de 50 leads</option>
+                        <option value="150">50 - 200 leads</option>
+                        <option value="500">Mas de 200 leads</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500 uppercase font-bold px-1">Sistema de Gestion Actual</label>
+                    <select id="software" class="w-full p-4 mt-1 rounded">
+                        <option value="excel">Excel / Hojas de calculo</option>
+                        <option value="crm">CRM Profesional (Salesforce/Hubspot)</option>
+                        <option value="manual">Papel / Manual / WhatsApp</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500 uppercase font-bold px-1">Metodo de Respuesta a Leads</label>
+                    <select id="metodo" class="w-full p-4 mt-1 rounded">
+                        <option value="analogico">Analogico (Llamada del comercial)</option>
+                        <option value="chatbot">Chatbot Generico</option>
+                        <option value="hibrido">Agencia Externa</option>
+                    </select>
+                </div>
+                <button type="button" onclick="runDiagnostic()" class="w-full bg-red-600 text-white font-black py-5 rounded text-xl hover:bg-white hover:text-black transition uppercase mt-4 shadow-lg shadow-red-900/20">
+                    GENERAR DIAGNOSTICO DE PERDIDAS
+                </button>
+            </form>
+        </div>
+    </div>
 
-        <div id="quiz-container" class="bg-zinc-900 p-8 rounded-lg border border-zinc-800 shadow-2xl text-left">
-            
-            <div id="step-1" class="step-active">
-                <h2 class="text-xl font-bold mb-6 italic">DATOS DE OPERACIÓN</h2>
-                <input type="text" id="name" placeholder="Tu Nombre" class="w-full bg-black border border-zinc-700 p-4 mb-4 rounded focus:border-red-600 outline-none">
-                <input type="tel" id="phone" placeholder="WhatsApp (Ej: +34...)" class="w-full bg-black border border-zinc-700 p-4 mb-6 rounded focus:border-red-600 outline-none">
-                <button onclick="nextStep(2)" class="w-full bg-white text-black font-black py-4 rounded hover:bg-red-600 hover:text-white transition">INICIAR DIAGNÓSTICO</button>
-            </div>
-
-            <div id="step-2" class="hidden">
-                <h2 class="text-xl font-bold mb-6 italic">¿FACTURACIÓN MENSUAL ACTUAL?</h2>
+    <div id="diag-view" class="hidden max-w-2xl w-full fade-in">
+        <div class="bg-zinc-900 border-2 border-red-600 p-8 rounded-3xl text-center shadow-2xl">
+            <h2 class="text-3xl font-black text-red-600 uppercase mb-2 italic tracking-tighter">INFORME DE DAÑOS NETOS</h2>
+            <p class="text-xl font-bold mb-8 text-white uppercase italic" id="diag-name"></p>
+            <div class="bg-black p-6 rounded-2xl text-left space-y-6 mb-10 border border-zinc-800">
+                <div class="flex justify-between items-center border-b border-zinc-800 pb-4">
+                    <span class="text-gray-400 font-bold uppercase text-sm tracking-widest">Fuga de Capital Anual:</span>
+                    <span class="text-red-500 font-black text-4xl" id="lost-money">0€</span>
+                </div>
                 <div class="space-y-3">
-                    <button onclick="saveData('fact', '10k', 3)" class="btn-option w-full p-4 text-left rounded">MENOS DE 10.000€</button>
-                    <button onclick="saveData('fact', '50k', 3)" class="btn-option w-full p-4 text-left rounded font-bold text-red-500">10.000€ - 50.000€</button>
-                    <button onclick="saveData('fact', '100k', 3)" class="btn-option w-full p-4 text-left rounded font-black text-red-600">MÁS DE 50.000€</button>
+                    <p class="text-lg text-gray-300">⚠️ <span class="text-white font-bold">Latencia detectada:</span> Con <span class="text-red-500 font-bold" id="lead-count"></span> leads al mes, tu estructura quema el 60% por falta de respuesta inmediata.</p>
+                </div>
+                <div class="p-4 bg-red-900/20 border border-red-600 rounded text-center">
+                    <p class="text-white font-black uppercase text-xl italic">Potencial de Recuperacion: <span id="recovery">0€</span></p>
                 </div>
             </div>
+            <button onclick="finalCall()" class="w-full bg-red-600 text-white font-black py-6 rounded-2xl text-2xl hover:scale-105 transition uppercase italic shadow-lg shadow-red-600/40">
+                ARREGLAR ESTO HOY MISMO
+            </button>
+        </div>
+    </div>
 
-            <div id="step-3" class="hidden">
-                <h2 class="text-xl font-bold mb-6 italic">¿VOLUMEN DE LEADS AL MES?</h2>
-                <div class="space-y-3">
-                    <button onclick="saveData('leads', '50', 4)" class="btn-option w-full p-4 text-left rounded">MENOS DE 50 LEADS</button>
-                    <button onclick="saveData('leads', '200', 4)" class="btn-option w-full p-4 text-left rounded font-bold">50 - 200 LEADS</button>
-                    <button onclick="saveData('leads', '500', 4)" class="btn-option w-full p-4 text-left rounded font-black text-red-600">MÁS DE 200 LEADS</button>
+    <div id="final-call-view" class="hidden max-w-2xl w-full fade-in">
+        <div class="bg-white text-black p-10 rounded-3xl text-center shadow-2xl border-4 border-red-600">
+            <div class="mb-6 flex justify-center">
+                <div class="w-20 h-20 bg-red-600 rounded-full animate-ping absolute opacity-20"></div>
+                <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center relative shadow-xl">
+                    <svg class="w-10 h-10 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                 </div>
             </div>
-
-            <div id="step-4" class="hidden">
-                <h2 class="text-xl font-bold mb-6 italic">¿MÉTODO ACTUAL DE RESPUESTA?</h2>
-                <div class="space-y-3">
-                    <button onclick="finalize('analogico')" class="btn-option w-full p-4 text-left rounded">ANALÓGICO (Llamada/WhatsApp manual)</button>
-                    <button onclick="finalize('chatbot')" class="btn-option w-full p-4 text-left rounded">CHATBOT GENÉRICO (Automático frío)</button>
-                    <button onclick="finalize('hibrido')" class="btn-option w-full p-4 text-left rounded">HÍBRIDO (Delegado/Agencia externa)</button>
-                </div>
+            <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter">PROTOCOLO ACTIVADO</h2>
+            <p class="text-2xl font-bold mb-6 text-red-600" id="final-msg-name"></p>
+            <div class="space-y-4 text-xl font-medium leading-tight">
+                <p>Te esta llamando nuestro <span class="font-black underline">Asistente Personal</span> por telefono <span class="font-black">AHORA MISMO</span>.</p>
+                <p>No cuelgues. Manten la linea libre para agendar la cita y recuperar hoy tu perdida de <span class="font-black text-red-600" id="final-lost-amount"></span>.</p>
             </div>
-
-            <div id="result" class="hidden text-center">
-                <div class="mb-6 p-4 bg-red-900/20 border border-red-600 rounded text-red-500 font-bold animate-pulse">
-                    DIAGNÓSTICO: CRÍTICO
-                </div>
-                <h2 class="text-3xl font-black mb-4">ESTÁS QUEMANDO DINERO</h2>
-                <p class="text-gray-400 mb-8">Tu latencia de respuesta está matando el 60% de tus ventas. El Protocolo 10X² puede recuperar ese flujo hoy mismo.</p>
-                <button onclick="sendLead()" class="w-full bg-red-600 text-white font-black py-6 rounded text-xl hover:scale-105 transition">QUIERO ARREGLAR ESTO HOY</button>
-                <p class="mt-4 text-xs text-gray-600">Al pulsar, un Sentinel 11s priorizará tu caso.</p>
+            <div class="mt-12 flex items-center justify-center space-x-2 text-red-600">
+                <div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div>
+                <p class="font-black uppercase text-[10px] tracking-[0.2em]">Sincronizando...</p>
             </div>
         </div>
     </div>
 
     <script>
-        let userData = {};
+        let finalData = {};
 
-        function nextStep(step) {
-            document.querySelectorAll('[id^="step-"]').forEach(el => el.classList.add('hidden'));
-            document.getElementById('step-' + step).classList.remove('hidden');
-            document.getElementById('step-' + step).classList.add('step-active');
-        }
-
-        function saveData(key, value, next) {
-            userData[key] = value;
-            nextStep(next);
-        }
-
-        function finalize(metodo) {
-            userData['metodo'] = metodo;
-            document.getElementById('step-4').classList.add('hidden');
-            document.getElementById('result').classList.remove('hidden');
-            document.getElementById('result').classList.add('step-active');
-        }
-
-        function sendLead() {
+        async function runDiagnostic() {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
-            // Aquí iría el webhook a n8n para disparar Vapi
-            alert('PROTOCOLADO: '+ name +'. Activando Sentinel en el ' + phone + '. Prepárate.');
-            window.location.href = "https://wa.me/TU_NUMERO?text=He%20terminado%20el%20autodiagnóstico.%20Quiero%20instalar%20el%20Protocolo%2010X%20HOY.";
+            const fact = parseFloat(document.getElementById('fact_anual').value);
+            const leads = document.getElementById('leads_vol').value;
+            const software = document.getElementById('software').value;
+            const metodo = document.getElementById('metodo').value;
+
+            if(!name || !phone) { alert("Nombre y WhatsApp requeridos."); return; }
+
+            let multiplier = 0.35; 
+            if (metodo === "analogico" || software === "manual") multiplier += 0.15;
+            if (software === "excel") multiplier += 0.05;
+
+            const lostMoney = Math.round(fact * multiplier);
+            const recovery = Math.round(lostMoney * 0.85);
+
+            finalData = { name, phone, fact, leads, software, metodo, lostMoney, recovery };
+
+            // CAPTURA DE DATOS INMEDIATA
+            fetch('https://n8n.planneruniversedigital.com/webhook-test/539d7879-37ff-47a1-a64e-6186a94aa0f8', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(finalData)
+            });
+
+            document.getElementById('diag-name').innerText = name.toUpperCase() + ", HEMORRAGIA CONFIRMADA:";
+            document.getElementById('lost-money').innerText = lostMoney.toLocaleString() + "€";
+            document.getElementById('lead-count').innerText = leads;
+            document.getElementById('recovery').innerText = recovery.toLocaleString() + "€";
+
+            document.getElementById('main-view').classList.add('hidden');
+            document.getElementById('diag-view').classList.remove('hidden');
+        }
+
+        function finalCall() {
+            // DISPARO ACCION FINAL (LLAMADA MAPI)
+            fetch('https://n8n.planneruniversedigital.com/webhook-test/539d7879-37ff-47a1-a64e-6186a94aa0f8', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...finalData, status: "DISPARAR_LLAMADA_MAPI" })
+            });
+
+            document.getElementById('diag-view').classList.add('hidden');
+            document.getElementById('final-call-view').classList.remove('hidden');
+            
+            document.getElementById('final-msg-name').innerText = finalData.name.toUpperCase() + ", NO CUELGUES.";
+            document.getElementById('final-lost-amount').innerText = finalData.lostMoney.toLocaleString() + "€";
         }
     </script>
 </body>

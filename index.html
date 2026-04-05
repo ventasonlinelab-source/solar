@@ -152,12 +152,10 @@
             const metodo = document.getElementById('metodo').value;
             if(!name || !phone) { alert("Nombre y WhatsApp requeridos."); return; }
             
-            // --- INYECCION PIXEL 10X2 ---
-            // Disparamos el evento Lead en cuanto el cliente pulsa el boton
+            // --- EVENTO 1: LEAD (DIAGNÓSTICO) ---
             if(typeof fbq !== 'undefined') {
-                fbq('track', 'Lead');
+                fbq('track', 'Lead', {content_name: 'Diagnóstico Iniciado'});
             }
-            // ----------------------------
 
             let multiplier = 0.35; 
             if (metodo === "analogico" || software === "manual") multiplier += 0.15;
@@ -182,6 +180,11 @@
         }
 
         function finalCall() {
+            // --- EVENTO 2: SCHEDULE (LLAMADA SOLICITADA) ---
+            if(typeof fbq !== 'undefined') {
+                fbq('track', 'Schedule', {content_name: 'Solicitud de Llamada 10X2'});
+            }
+
             fetch('https://n8n.planneruniversedigital.com/webhook-test/539d7879-37ff-47a1-a64e-6186a94aa0f8', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

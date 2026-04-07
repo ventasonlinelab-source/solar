@@ -127,10 +127,8 @@
     </div>
 
     <script>
-        const WH_LEAD = 'https://n8n.planneruniversedigital.com/webhook/539d7879-37ff-47a1-a64e-6186a94aa0f8';
-        const WH_CALL = 'https://n8n.planneruniversedigital.com/webhook/3ada96c2-01e1-4baa-8293-98f642f1cd47';
-
-        let data = {};
+        const WEBHOOK_URL = 'https://n8n.planneruniversedigital.com/webhook/539d7879-37ff-47a1-a64e-6186a94aa0f8';
+        let leadData = {};
 
         function run() {
             const name = document.getElementById('name').value;
@@ -138,23 +136,29 @@
             const phone = document.getElementById('phone').value;
             const accepted = document.getElementById('politicas').checked;
 
-            if(!name || !cargo || !phone) return alert("Faltan datos de mando.");
-            if(!accepted) return alert("Debes aceptar las políticas para el diagnóstico.");
+            if(!name || !cargo || !phone) return alert("César, faltan datos de mando.");
+            if(!accepted) return alert("Debes aceptar las políticas.");
             
-            data = {
+            leadData = {
                 name: name,
                 cargo: cargo,
                 phone: phone,
                 fact: parseFloat(document.getElementById('fact').value),
                 verifactu: document.getElementById('verifactu').value,
                 tipo: document.getElementById('tipo').value,
-                cuali: document.getElementById('cuali').value
+                cuali: document.getElementById('cuali').value,
+                action: 'LEAD'
             };
-
-            localStorage.setItem('lead10x', JSON.stringify(data));
 
             document.getElementById('fields').classList.add('hidden');
             document.getElementById('loading').classList.remove('hidden');
+
+            // DISPARO 1: REGISTRO DE LEAD
+            fetch(WEBHOOK_URL, { 
+                method: 'POST', 
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify(leadData) 
+            });
 
             setTimeout(() => {
                 document.getElementById('main-view').classList.add('hidden');
@@ -162,29 +166,32 @@
                 
                 let factor = 0;
                 let list = "";
-                if(data.tipo === 'humano') { factor += 0.25; list += "<li><b>Latencia:</b> Pérdida por contacto comercial lento.</li>"; }
-                if(data.tipo === 'ninguna') { factor += 0.35; list += "<li><b>Abandono:</b> Muerte del lead por nula respuesta rápida.</li>"; }
-                if(data.cuali === 'humano_caro') { factor += 0.15; list += "<li><b>Sobrecoste:</b> Cualificación manual ineficiente.</li>"; }
-                if(data.cuali === 'nadie') { factor += 0.25; list += "<li><b>Dilución:</b> Presupuestos a leads sin capacidad de pago.</li>"; }
+                if(leadData.tipo === 'humano') { factor += 0.25; list += "<li><b>Latencia:</b> Pérdida por contacto comercial lento.</li>"; }
+                if(leadData.tipo === 'ninguna') { factor += 0.35; list += "<li><b>Abandono:</b> Muerte del lead por nula respuesta rápida.</li>"; }
+                if(leadData.cuali === 'humano_caro') { factor += 0.15; list += "<li><b>Sobrecoste:</b> Cualificación manual ineficiente.</li>"; }
+                if(leadData.cuali === 'nadie') { factor += 0.25; list += "<li><b>Dilución:</b> Presupuestos a leads sin capacidad de pago.</li>"; }
                 
-                document.getElementById('c-money').innerText = Math.round(data.fact * factor).toLocaleString() + "€";
+                document.getElementById('c-money').innerText = Math.round(leadData.fact * factor).toLocaleString() + "€";
                 document.getElementById('c-list').innerHTML = list;
 
-                if(data.verifactu === 'si') {
+                if(leadData.verifactu === 'si') {
                     document.getElementById('f-box').classList.add('secure');
                     document.getElementById('f-money').innerText = "PROTEGIDO";
                     document.getElementById('f-list').innerHTML = "<li>Certificación activa detectada.</li><li>Búnker legal verificado ante inspección.</li>";
                 }
-                
-                fetch(WH_LEAD, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, action: 'LEAD' }) });
             }, 1800);
         }
 
         function final() {
-            const saved = JSON.parse(localStorage.getItem('lead10x'));
+            // DISPARO 2: SOLICITUD DE INTERVENCIÓN (ACTION: CALL)
+            fetch(WEBHOOK_URL, { 
+                method: 'POST', 
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({ ...leadData, action: 'CALL' }) 
+            });
+            
             document.getElementById('result-view').classList.add('hidden');
             document.getElementById('final-view').classList.remove('hidden');
-            fetch(WH_CALL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...saved, action: 'CALL' }) });
         }
     </script>
 </body>

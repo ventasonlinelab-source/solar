@@ -38,122 +38,81 @@
 
     <div id="main-view" class="container">
         <div class="badge">Acceso Restringido</div>
-        <h1>SOLO PARA RESPONSABLES DE EMPRESAS <br><span style="color:var(--red);">INSTALADORAS FOTOVOLTAICAS</span></h1>
-        <p class="sub-promesa">
-            Obtén tu Sentencia Técnica Inmediata: Localiza las fugas de capital en tu red comercial y mide tu nivel de exposición real ante las sanciones de la AEAT.
-        </p>
+        <h1>RESPONSABLE DE INSTALADORA SOLAR <br><span style="color:var(--red);">ESTADO CRÍTICO</span></h1>
+        <p class="sub-promesa">Localiza las fugas de capital en tu red comercial y mide tu riesgo real ante sanciones AEAT.</p>
         
         <div class="card">
             <div id="fields">
                 <label>Nombre Completo</label>
                 <input type="text" id="name" placeholder="Tu identidad" required>
                 <label>Cargo en la Empresa</label>
-                <input type="text" id="cargo" placeholder="Ej: CEO / Director Operaciones" required>
-                <label>WhatsApp Directo (Llamada de diagnóstico)</label>
+                <input type="text" id="cargo" placeholder="Ej: CEO / Gerente" required>
+                <label>WhatsApp Directo</label>
                 <input type="tel" id="phone" placeholder="+34..." required>
-                <label>Volumen Anual de Instalación</label>
+                <label>Volumen Anual</label>
                 <select id="fact">
                     <option value="400000">100k - 500k €</option>
                     <option value="800000">500k - 1M €</option>
                     <option value="2000000">+1M €</option>
                 </select>
-                <label>¿Certificación Verifactu?</label>
-                <select id="verifactu">
-                    <option value="no">No / Lo desconozco</option>
-                    <option value="si">Sí, sistema certificado</option>
-                </select>
-                <label>Gestión de nuevos Leads</label>
-                <select id="tipo">
-                    <option value="humano">Manual (Llamada comercial diferida)</option>
-                    <option value="ninguna">Sin protocolo de respuesta rápida</option>
-                </select>
-                <label>Cualificación Financiera</label>
-                <select id="cuali">
-                    <option value="humano_caro">Equipo humano (Filtro manual)</option>
-                    <option value="nadie">Sin filtrado técnico previo</option>
-                </select>
+                <label>¿Verifactu?</label>
+                <select id="verifactu"><option value="no">No / Desconozco</option><option value="si">Sí</option></select>
+                <label>Gestión de Leads</label>
+                <select id="tipo"><option value="humano">Manual</option><option value="ninguna">Sin protocolo</option></select>
+                <label>Cualificación</label>
+                <select id="cuali"><option value="humano_caro">Equipo humano</option><option value="nadie">Sin filtro</option></select>
 
                 <label class="checkbox-container">
                     <input type="checkbox" id="politicas">
-                    <span class="checkbox-text">Confirmo que soy responsable de toma de decisiones y acepto el tratamiento de datos para recibir el diagnóstico.</span>
+                    <span class="checkbox-text">Confirmo cargo y acepto políticas de diagnóstico.</span>
                 </label>
 
-                <button class="btn-main" onclick="run()">ACCEDER AL DIAGNÓSTICO 10X²</button>
+                <button class="btn-main" onclick="run()">GENERAR SENTENCIA TÉCNICA</button>
             </div>
-            
-            <div id="loading" class="hidden" style="text-align: center; padding: 40px 0;">
-                <div class="spinner"></div>
-                <p style="font-weight:900; font-size:12px; text-transform:uppercase;">Extrayendo métricas críticas...</p>
-            </div>
+            <div id="loading" class="hidden"><div class="spinner"></div></div>
         </div>
     </div>
 
     <div id="result-view" class="container hidden" style="animation: fadeIn 0.4s;">
-        <h1 style="font-size:1.5rem; text-transform:uppercase;">SENTENCIA TÉCNICA FINAL</h1>
+        <h1 style="text-transform:uppercase;">SENTENCIA TÉCNICA FINAL</h1>
+        
         <div class="report-box" id="f-box">
-            <div style="font-size:9px; font-weight:900; color:#666; text-transform:uppercase;">01 // RIESGO FISCAL AEAT</div>
+            <div style="font-size:9px; font-weight:900; color:#666;">01 // RIESGO FISCAL AEAT</div>
             <div class="big-num" id="f-money">Desde 50.000€</div>
-            <p style="font-size:12px; font-weight:700;">Sanción potencial estimada (Ley 11/2021).</p>
-            <div class="tech-sentence">
-                <ul class="tech-list" id="f-list">
-                    <li>Ausencia de software Verifactu certificado.</li>
-                    <li>Riesgo alto de inspección por trazabilidad rota.</li>
-                </ul>
-            </div>
+            <div class="tech-sentence"><ul class="tech-list" id="f-list"><li>Riesgo alto por trazabilidad rota.</li></ul></div>
         </div>
-        <div class="report-box">
-            <div style="font-size:9px; font-weight:900; color:#666; text-transform:uppercase;">02 // FUGA DE MARGEN ANUAL</div>
-            <div class="big-num" id="c-money">0€</div>
-            <p style="font-size:12px; font-weight:700;">Capital evaporado por ineficiencia comercial.</p>
-            <div class="tech-sentence">
-                <ul class="tech-list" id="c-list"></ul>
-            </div>
-        </div>
-        <button class="btn-main" style="padding: 25px; line-height: 1.2;" onclick="final()">
-            DETENER HEMORRAGIA AHORA
-            <span style="display:block; font-size:11px; font-weight:900; color:#fff; text-transform:uppercase; margin-top:5px; background:rgba(0,0,0,0.3); border-radius:2px;">Atento al móvil: te llamamos ahora mismo</span>
-        </button>
-    </div>
 
-    <div id="final-view" class="container hidden">
-        <div style="background:#fff; color:#000; padding:45px; border-radius:10px; border: 10px solid var(--red);">
-            <h2 style="font-size:2rem; font-weight:900; margin:0; text-transform:uppercase; line-height:1;">PROTOCOLOS ACTIVADOS</h2>
-            <div style="margin: 25px 0; padding: 20px; border: 2px dashed var(--red);">
-                <p style="font-size:1.3rem; font-weight:900; color:var(--red); margin:0;">MANTÉN EL TELÉFONO EN LA MANO</p>
-                <p style="font-size:15px; font-weight:700; margin-top:5px;">Un especialista 10X² está iniciando el contacto.</p>
-            </div>
-            <p style="font-size:11px; color:#666; font-weight:700; text-transform:uppercase;">Intervención técnica prioritaria. No cuelgues.</p>
+        <div class="report-box">
+            <div style="font-size:9px; font-weight:900; color:#666;">02 // FUGA COMERCIAL ANUAL</div>
+            <div class="big-num" id="c-money">0€</div>
+            <div class="tech-sentence"><ul class="tech-list" id="c-list"></ul></div>
+        </div>
+
+        <div style="background:var(--red); color:#fff; padding:25px; border-radius:10px; margin-top:20px;">
+            <p style="font-weight:900; font-size:1.1rem; margin:0; text-transform:uppercase;">Intervención en curso</p>
+            <p style="font-size:14px; font-weight:600; margin:10px 0 0 0;">Ya tenemos tus datos. Estamos diseñando una solución técnica para tu red comercial. <b>Adrián Ibáñez, Ingeniero de Sistemas de Alto Rendimiento</b>, se pondrá en contacto contigo en menos de 5 minutos. Estate atento al teléfono.</p>
         </div>
     </div>
 
     <script>
         const WEBHOOK_URL = 'https://n8n.planneruniversedigital.com/webhook/539d7879-37ff-47a1-a64e-6186a94aa0f8';
-        let leadData = {};
 
         function run() {
             const name = document.getElementById('name').value;
             const cargo = document.getElementById('cargo').value;
             const phone = document.getElementById('phone').value;
-            const accepted = document.getElementById('politicas').checked;
+            const fact = document.getElementById('fact').value;
+            const verifactu = document.getElementById('verifactu').value;
+            const tipo = document.getElementById('tipo').value;
+            const cuali = document.getElementById('cuali').value;
 
-            if(!name || !cargo || !phone) return alert("César, faltan datos de mando.");
-            if(!accepted) return alert("Debes aceptar las políticas.");
+            if(!name || !cargo || !phone || !document.getElementById('politicas').checked) return alert("Faltan datos de mando.");
             
-            leadData = {
-                name: name,
-                cargo: cargo,
-                phone: phone,
-                fact: parseFloat(document.getElementById('fact').value),
-                verifactu: document.getElementById('verifactu').value,
-                tipo: document.getElementById('tipo').value,
-                cuali: document.getElementById('cuali').value,
-                action: 'LEAD'
-            };
+            const leadData = { name, cargo, phone, fact, verifactu, tipo, cuali, action: 'LEAD' };
 
             document.getElementById('fields').classList.add('hidden');
             document.getElementById('loading').classList.remove('hidden');
 
-            // DISPARO 1: REGISTRO DE LEAD
             fetch(WEBHOOK_URL, { 
                 method: 'POST', 
                 headers: {'Content-Type': 'application/json'}, 
@@ -166,32 +125,20 @@
                 
                 let factor = 0;
                 let list = "";
-                if(leadData.tipo === 'humano') { factor += 0.25; list += "<li><b>Latencia:</b> Pérdida por contacto comercial lento.</li>"; }
-                if(leadData.tipo === 'ninguna') { factor += 0.35; list += "<li><b>Abandono:</b> Muerte del lead por nula respuesta rápida.</li>"; }
-                if(leadData.cuali === 'humano_caro') { factor += 0.15; list += "<li><b>Sobrecoste:</b> Cualificación manual ineficiente.</li>"; }
-                if(leadData.cuali === 'nadie') { factor += 0.25; list += "<li><b>Dilución:</b> Presupuestos a leads sin capacidad de pago.</li>"; }
+                if(tipo === 'humano') { factor += 0.25; list += "<li><b>Latencia:</b> Pérdida por contacto lento.</li>"; }
+                if(tipo === 'ninguna') { factor += 0.35; list += "<li><b>Abandono:</b> Muerte del lead por nula respuesta.</li>"; }
+                if(cuali === 'humano_caro') { factor += 0.15; list += "<li><b>Sobrecoste:</b> Cualificación manual ineficiente.</li>"; }
+                if(cuali === 'nadie') { factor += 0.25; list += "<li><b>Dilución:</b> Presupuestos a leads sin capital.</li>"; }
                 
-                document.getElementById('c-money').innerText = Math.round(leadData.fact * factor).toLocaleString() + "€";
+                document.getElementById('c-money').innerText = Math.round(parseFloat(fact) * factor).toLocaleString() + "€";
                 document.getElementById('c-list').innerHTML = list;
 
-                if(leadData.verifactu === 'si') {
+                if(verifactu === 'si') {
                     document.getElementById('f-box').classList.add('secure');
                     document.getElementById('f-money').innerText = "PROTEGIDO";
-                    document.getElementById('f-list').innerHTML = "<li>Certificación activa detectada.</li><li>Búnker legal verificado ante inspección.</li>";
+                    document.getElementById('f-list').innerHTML = "<li>Certificación activa detectada.</li><li>Búnker legal verificado.</li>";
                 }
-            }, 1800);
-        }
-
-        function final() {
-            // DISPARO 2: SOLICITUD DE INTERVENCIÓN (ACTION: CALL)
-            fetch(WEBHOOK_URL, { 
-                method: 'POST', 
-                headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify({ ...leadData, action: 'CALL' }) 
-            });
-            
-            document.getElementById('result-view').classList.add('hidden');
-            document.getElementById('final-view').classList.remove('hidden');
+            }, 2000);
         }
     </script>
 </body>

@@ -9,7 +9,8 @@
         body { background-color: var(--bg); color: #fff; font-family: system-ui, sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center; }
         .container { max-width: 500px; width: 100%; }
         .badge { background: var(--red); color: #fff; padding: 6px 14px; font-weight: 900; text-transform: uppercase; font-size: 11px; letter-spacing: 1.5px; border-radius: 2px; display: inline-block; margin-bottom: 20px; }
-        h1 { font-size: 1.6rem; font-weight: 900; text-transform: uppercase; margin-bottom: 25px; letter-spacing: -1px; line-height: 1.1; }
+        h1 { font-size: 1.6rem; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; letter-spacing: -1px; line-height: 1.1; }
+        .sub-promesa { font-size: 14px; color: #a1a1aa; margin-bottom: 25px; font-weight: 600; line-height: 1.4; }
         .card { background: var(--card); padding: 30px; border-radius: 8px; border: 1px solid #333; text-align: left; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
         label { font-size: 10px; color: #a1a1aa; text-transform: uppercase; font-weight: 800; display: block; margin-bottom: 8px; letter-spacing: 0.5px; }
         input, select { width: 100%; padding: 14px; background: #09090b; border: 1px solid #3f3f46; color: #fff; border-radius: 4px; font-size: 15px; box-sizing: border-box; margin-bottom: 15px; }
@@ -37,12 +38,17 @@
 
     <div id="main-view" class="container">
         <div class="badge">Acceso Restringido</div>
-        <h1>RELLENA ESTO SOLO SI ERES EL <br><span style="color:var(--red);">RESPONSABLE DE UNA INSTALADORA SOLAR</span></h1>
+        <h1>SOLO PARA RESPONSABLES DE EMPRESAS <br><span style="color:var(--red);">INSTALADORAS FOTOVOLTAICAS</span></h1>
+        <p class="sub-promesa">
+            Obtén tu Sentencia Técnica Inmediata: Localiza las fugas de capital en tu red comercial y mide tu nivel de exposición real ante las sanciones de la AEAT.
+        </p>
         
         <div class="card">
             <div id="fields">
-                <label>Nombre y Cargo (CEO / Operaciones)</label>
-                <input type="text" id="name" placeholder="Tu identidad técnica" required>
+                <label>Nombre Completo</label>
+                <input type="text" id="name" placeholder="Tu identidad" required>
+                <label>Cargo en la Empresa</label>
+                <input type="text" id="cargo" placeholder="Ej: CEO / Director Operaciones" required>
                 <label>WhatsApp Directo (Llamada de diagnóstico)</label>
                 <input type="tel" id="phone" placeholder="+34..." required>
                 <label>Volumen Anual de Instalación</label>
@@ -69,7 +75,7 @@
 
                 <label class="checkbox-container">
                     <input type="checkbox" id="politicas">
-                    <span class="checkbox-text">Confirmo que soy responsable de toma de decisiones y acepto el tratamiento de datos.</span>
+                    <span class="checkbox-text">Confirmo que soy responsable de toma de decisiones y acepto el tratamiento de datos para recibir el diagnóstico.</span>
                 </label>
 
                 <button class="btn-main" onclick="run()">ACCEDER AL DIAGNÓSTICO 10X²</button>
@@ -77,13 +83,13 @@
             
             <div id="loading" class="hidden" style="text-align: center; padding: 40px 0;">
                 <div class="spinner"></div>
-                <p style="font-weight:900; font-size:12px; text-transform:uppercase;">Verificando credenciales de mando...</p>
+                <p style="font-weight:900; font-size:12px; text-transform:uppercase;">Extrayendo métricas críticas...</p>
             </div>
         </div>
     </div>
 
     <div id="result-view" class="container hidden" style="animation: fadeIn 0.4s;">
-        <h1 style="font-size:1.5rem; text-transform:uppercase;">INFORME FORENSE FINAL</h1>
+        <h1 style="font-size:1.5rem; text-transform:uppercase;">SENTENCIA TÉCNICA FINAL</h1>
         <div class="report-box" id="f-box">
             <div style="font-size:9px; font-weight:900; color:#666; text-transform:uppercase;">01 // RIESGO FISCAL AEAT</div>
             <div class="big-num" id="f-money">Desde 50.000€</div>
@@ -98,7 +104,7 @@
         <div class="report-box">
             <div style="font-size:9px; font-weight:900; color:#666; text-transform:uppercase;">02 // FUGA DE MARGEN ANUAL</div>
             <div class="big-num" id="c-money">0€</div>
-            <p style="font-size:12px; font-weight:700;">Capital neto evaporado en ventas.</p>
+            <p style="font-size:12px; font-weight:700;">Capital evaporado por ineficiencia comercial.</p>
             <div class="tech-sentence">
                 <ul class="tech-list" id="c-list"></ul>
             </div>
@@ -114,9 +120,9 @@
             <h2 style="font-size:2rem; font-weight:900; margin:0; text-transform:uppercase; line-height:1;">PROTOCOLOS ACTIVADOS</h2>
             <div style="margin: 25px 0; padding: 20px; border: 2px dashed var(--red);">
                 <p style="font-size:1.3rem; font-weight:900; color:var(--red); margin:0;">MANTÉN EL TELÉFONO EN LA MANO</p>
-                <p style="font-size:15px; font-weight:700; margin-top:5px;">Un especialista 10X² te está marcando ya.</p>
+                <p style="font-size:15px; font-weight:700; margin-top:5px;">Un especialista 10X² está iniciando el contacto.</p>
             </div>
-            <p style="font-size:11px; color:#666; font-weight:700; text-transform:uppercase;">No cuelgues. Intervención técnica prioritaria.</p>
+            <p style="font-size:11px; color:#666; font-weight:700; text-transform:uppercase;">Intervención técnica prioritaria. No cuelgues.</p>
         </div>
     </div>
 
@@ -128,14 +134,16 @@
 
         function run() {
             const name = document.getElementById('name').value;
+            const cargo = document.getElementById('cargo').value;
             const phone = document.getElementById('phone').value;
             const accepted = document.getElementById('politicas').checked;
 
-            if(!name || !phone) return alert("Cesar, rellena los datos.");
-            if(!accepted) return alert("Cesar, marca el checkbox.");
+            if(!name || !cargo || !phone) return alert("Faltan datos de mando.");
+            if(!accepted) return alert("Debes aceptar las políticas para el diagnóstico.");
             
             data = {
                 name: name,
+                cargo: cargo,
                 phone: phone,
                 fact: parseFloat(document.getElementById('fact').value),
                 verifactu: document.getElementById('verifactu').value,

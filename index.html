@@ -50,13 +50,13 @@
                 </select>
                 <label>Gestión de nuevos Leads</label>
                 <select id="tipo">
-                    <option value="humano">Manual (Llamada diferida)</option>
-                    <option value="ninguna">Sin protocolo rápido</option>
+                    <option value="humano">Manual (Llamada comercial diferida)</option>
+                    <option value="ninguna">Sin protocolo de respuesta rápida</option>
                 </select>
                 <label>Cualificación Financiera</label>
                 <select id="cuali">
-                    <option value="humano_caro">Equipo humano (Manual)</option>
-                    <option value="nadie">Sin filtrado técnico</option>
+                    <option value="humano_caro">Equipo humano (Filtro manual)</option>
+                    <option value="nadie">Sin filtrado técnico previo</option>
                 </select>
                 
                 <div style="text-align: left; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px;">
@@ -81,8 +81,8 @@
         
         <div class="report-box" id="f-box">
             <div style="font-size:9px; font-weight:900; color:#666; text-transform:uppercase;">01 // RIESGO FISCAL AEAT</div>
-            <div class="big-num" id="f-money-display">50.000€</div>
-            <p style="font-size:12px; font-weight:700;">Sanción potencial estimada (Ley 11/2021).</p>
+            <div class="big-num" id="f-money-display">MÍNIMO 50.000€</div>
+            <p style="font-size:12px; font-weight:700;">Sanción base por infracción (Ley 11/2021).</p>
         </div>
 
         <div class="report-box">
@@ -102,7 +102,7 @@
             <h2 style="font-size:2rem; font-weight:900; margin:0; text-transform:uppercase; line-height:1;">PROTOCOLOS ACTIVADOS</h2>
             <div style="margin: 25px 0; padding: 20px; border: 2px dashed var(--red);">
                 <p style="font-size:1.3rem; font-weight:900; color:var(--red); margin:0;">MANTÉN EL TELÉFONO EN LA MANO</p>
-                <p style="font-size:15px; font-weight:700; margin-top:5px;">Un especialista 10X² te está marcando ya.</p>
+                <p style="font-size:15px; font-weight:700; margin-top:5px;">Intervención técnica prioritaria en curso.</p>
             </div>
         </div>
     </div>
@@ -113,26 +113,23 @@
             if(!document.getElementById('rgpd').checked) return alert("Debes aceptar las políticas, Cesar.");
             if(!document.getElementById('name').value || !document.getElementById('phone').value) return alert("Rellena nombre y teléfono.");
             
-            // 1. CAPTURA
             data = {
                 name: document.getElementById('name').value,
                 phone: document.getElementById('phone').value,
-                fact: parseFloat(document.getElementById('fact').value),
+                fact: document.getElementById('fact').value,
                 verifactu: document.getElementById('verifactu').value,
                 tipo: document.getElementById('tipo').value,
                 cuali: document.getElementById('cuali').value,
                 rgpd: "SÍ"
             };
 
-            // 2. CÁLCULO DE LAVA
             let factor = 0;
             if(data.tipo === 'humano') factor += 0.25;
             if(data.tipo === 'ninguna') factor += 0.35;
             if(data.cuali === 'humano_caro') factor += 0.15;
             if(data.cuali === 'nadie') factor += 0.25;
 
-            data.fuga_captacion = Math.round(data.fact * factor);
-            data.riesgo_fiscal = (data.verifactu === 'no') ? 50000 : 0;
+            const fuga = Math.round(parseFloat(data.fact) * factor);
 
             document.getElementById('fields').classList.add('hidden');
             document.getElementById('loading').classList.remove('hidden');
@@ -141,15 +138,13 @@
                 document.getElementById('main-view').classList.add('hidden');
                 document.getElementById('result-view').classList.remove('hidden');
                 
-                // Pintar resultados
-                document.getElementById('c-money-display').innerText = data.fuga_captacion.toLocaleString() + "€";
+                document.getElementById('c-money-display').innerText = fuga.toLocaleString() + "€";
                 if(data.verifactu === 'si') {
                     document.getElementById('f-box').classList.add('secure');
                     document.getElementById('f-money-display').innerText = "PROTEGIDO";
                 } else {
-                    document.getElementById('f-money-display').innerText = "50.000€";
+                    document.getElementById('f-money-display').innerText = "MÍNIMO 50.000€";
                 }
-                
                 send('LEAD');
             }, 1800);
         }

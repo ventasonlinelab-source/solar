@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUDITORÍA SISTÉMICA SOLAR 10X²</title>
+    <title>SISTEMA 10X² SOLAR</title>
     <style>
         :root { --red: #dc2626; --bg: #000; --card: #18181b; --green: #10b981; }
         body { background-color: var(--bg); color: #fff; font-family: system-ui, sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center; }
@@ -36,16 +36,16 @@
 <body>
 
     <div id="main-view" class="container">
-        <div class="badge">Auditoría 10X²</div>
-        <h1>BLINDA TU INSTALADORA ANTE <br><span style="color:var(--red);">AEAT Y FUGAS COMERCIALES</span></h1>
+        <div class="badge">Acceso Restringido</div>
+        <h1>RELLENA ESTO SOLO SI ERES EL <br><span style="color:var(--red);">RESPONSABLE DE UNA INSTALADORA SOLAR</span></h1>
         
         <div class="card">
             <div id="fields">
-                <label>Responsable</label>
-                <input type="text" id="name" placeholder="Tu nombre" required>
+                <label>Nombre y Cargo (CEO / Operaciones)</label>
+                <input type="text" id="name" placeholder="Tu identidad técnica" required>
                 <label>WhatsApp Directo (Llamada de diagnóstico)</label>
                 <input type="tel" id="phone" placeholder="+34..." required>
-                <label>Volumen Anual</label>
+                <label>Volumen Anual de Instalación</label>
                 <select id="fact">
                     <option value="400000">100k - 500k €</option>
                     <option value="800000">500k - 1M €</option>
@@ -69,15 +69,15 @@
 
                 <label class="checkbox-container">
                     <input type="checkbox" id="politicas">
-                    <span class="checkbox-text">Acepto el tratamiento de datos y las políticas de privacidad para recibir el diagnóstico técnico inmediato.</span>
+                    <span class="checkbox-text">Confirmo que soy responsable de toma de decisiones y acepto el tratamiento de datos.</span>
                 </label>
 
-                <button class="btn-main" onclick="run()">GENERAR SENTENCIA TÉCNICA</button>
+                <button class="btn-main" onclick="run()">ACCEDER AL DIAGNÓSTICO 10X²</button>
             </div>
             
             <div id="loading" class="hidden" style="text-align: center; padding: 40px 0;">
                 <div class="spinner"></div>
-                <p style="font-weight:900; font-size:12px; text-transform:uppercase;">Detectando hemorragias operativas...</p>
+                <p style="font-weight:900; font-size:12px; text-transform:uppercase;">Verificando credenciales de mando...</p>
             </div>
         </div>
     </div>
@@ -132,7 +132,7 @@
             const accepted = document.getElementById('politicas').checked;
 
             if(!name || !phone) return alert("Cesar, rellena los datos.");
-            if(!accepted) return alert("Cesar, marca el checkbox de políticas.");
+            if(!accepted) return alert("Cesar, marca el checkbox.");
             
             data = {
                 name: name,
